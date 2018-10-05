@@ -207,5 +207,102 @@ def big_shoe_rebounds
    player_rebound
 end
 
-big_shoe_rebounds
 
+
+def most_points_scored
+  points_scored = 0
+  player_with_most_points = ""
+  game_hash.each do |team, hash|
+    game_hash[team].each do |attributes, hash_of_details|
+      if attributes == :players
+        game_hash[team][:players].each do |name, hash_of_stats|
+          game_hash[team][:players][name].each do |statistic, value|
+            if statistic == :points && value > points_scored
+              points_scored = value
+              player_with_most_points = name
+            end
+          end
+        end
+      end
+    end
+  end
+  player_with_most_points
+end
+
+
+def winning_team
+  team1 = 0 
+  team2 = 0 
+  winning_team_name = ""
+  game_hash.each do |team, hash|
+    if team == :home
+      game_hash[:home][:players].each do |name, hash_of_stats|
+        game_hash[:home][:players][name].each do |statistic, value|
+          if statistic == :points
+            team1 += value
+          end
+        end
+      end
+    else
+       game_hash[:away][:players].each do |name, hash_of_stats|
+        game_hash[:away][:players][name].each do |statistic, value|
+          if statistic == value
+            team2 += points 
+          end
+        end
+      end
+    end
+    if team1 > team2
+      winning_team_name = game_hash[:home][:team_name]
+    elsif team2 > team1
+      winning_team_name = game_hash[:away][:team_name]
+    else
+      winning_team_name = "It's a draw!"
+    end
+    winning_team_name
+  end
+end
+
+def player_with_longest_name
+  name_length = 0 
+  player_name = ""
+  game_hash.each do |team, hash|
+    game_hash[team].each do |attributes, hash_of_details|
+      if attributes == :players
+        game_hash[team][:players].each do |name, hash_of_stats|
+          if name.length > name_length
+            name_length = name.length
+            player_name = name
+          end
+        end
+      end
+    end
+  end
+ player_name        
+end
+
+def long_name_steals_a_ton?
+  steals = 0 
+  name_of_player_with_most_steals = ""
+  game_hash.each do |team, hash|
+    game_hash[team].each do |attributes, hash_of_details|
+      if attributes == :players
+        game_hash[team][:players].each do |name, hash_of_stats|
+          game_hash[team][:players][name].each do |statistic, value|
+            if statistic == :steals && value > steals
+              steals = value
+              name_of_player_with_most_steals = name
+            end
+          end
+        end
+      end
+    end
+  end
+  if name_of_player_with_most_steals == player_with_longest_name
+     true 
+  else
+     false
+  end
+end
+
+long_name_steals_a_ton?
